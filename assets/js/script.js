@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('Form submitted - EmailJS config:', EMAILJS_CONFIG);
             
             const submitBtn = this.querySelector('.submit-btn');
             const originalText = submitBtn.textContent;
@@ -162,9 +163,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 EMAILJS_CONFIG.publicKey === 'YOUR_EMAILJS_PUBLIC_KEY' || 
                 EMAILJS_CONFIG.serviceId === 'YOUR_EMAILJS_SERVICE_ID' || 
                 EMAILJS_CONFIG.templateId === 'YOUR_EMAILJS_TEMPLATE_ID') {
+                console.error('EmailJS validation failed:', EMAILJS_CONFIG);
                 alert('EmailJS is not configured yet. Please contact the restaurant directly.');
                 return;
             }
+            
+            console.log('EmailJS validation passed, attempting to send...');
             
             // Show loading state
             submitBtn.textContent = 'Sending Review...';
@@ -458,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function() {
 window.initMap = function() {
     const mapElement = document.getElementById('map');
     if (!mapElement) {
-        console.error('Map element not found');
+        console.log('Map element not found - skipping map initialization');
         return;
     }
     
