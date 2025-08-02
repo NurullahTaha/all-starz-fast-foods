@@ -138,9 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // EmailJS configuration - Replace with your actual credentials
     const EMAILJS_CONFIG = {
-        publicKey: 'YOUR_EMAILJS_PUBLIC_KEY', // Replace with your EmailJS public key from Account → General
-        serviceId: 'YOUR_EMAILJS_SERVICE_ID', // Replace with your Gmail service ID (e.g., service_xxxxxxx)
-        templateId: 'YOUR_EMAILJS_TEMPLATE_ID' // Replace with your template ID (e.g., template_xxxxxxx)
+        publicKey: 'Hptbl4imLCpSIDKwo', // Replace with your EmailJS public key from Account → General
+        serviceId: 'service_q4y9r6x', // Replace with your Gmail service ID (e.g., service_xxxxxxx)
+        templateId: 'template_stqv4iq' // Replace with your template ID (e.g., template_xxxxxxx)
     };
 
     // Initialize EmailJS
