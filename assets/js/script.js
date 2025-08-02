@@ -136,92 +136,55 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // EmailJS configuration - Replace with your actual credentials
-    const EMAILJS_CONFIG = {
-        publicKey: 'Hptbl4imLCpSIDKwo', // Replace with your EmailJS public key from Account → General
-        serviceId: 'service_q4y9r6x', // Replace with your Gmail service ID (e.g., service_xxxxxxx)
-        templateId: 'template_stqv4iq' // Replace with your template ID (e.g., template_xxxxxxx)
-    };
-
-    // Initialize EmailJS
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init(EMAILJS_CONFIG.publicKey);
-        console.log('EmailJS initialized with key:', EMAILJS_CONFIG.publicKey);
-    } else {
-        console.error('EmailJS library not loaded');
-    }
-
-    console.log('Contact form found:', contactForm);
+    // Simple mailto contact form
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('Form submitted - EmailJS config:', EMAILJS_CONFIG);
             
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
+            // Get form data
+            const name = this.querySelector('input[name="from_name"]').value;
+            const email = this.querySelector('input[name="from_email"]').value;
+            const message = this.querySelector('textarea[name="message"]').value;
             
-            // Validate configuration
-            if (!EMAILJS_CONFIG.publicKey || 
-                !EMAILJS_CONFIG.serviceId || 
-                !EMAILJS_CONFIG.templateId ||
-                EMAILJS_CONFIG.publicKey === 'YOUR_EMAILJS_PUBLIC_KEY' || 
-                EMAILJS_CONFIG.serviceId === 'YOUR_EMAILJS_SERVICE_ID' || 
-                EMAILJS_CONFIG.templateId === 'YOUR_EMAILJS_TEMPLATE_ID') {
-                console.error('EmailJS validation failed:', EMAILJS_CONFIG);
-                alert('EmailJS is not configured yet. Please contact the restaurant directly.');
-                return;
-            }
+            // Create mailto link
+            const subject = encodeURIComponent('Review from ' + name);
+            const body = encodeURIComponent(
+                'Name: ' + name + '\n' +
+                'Email: ' + email + '\n\n' +
+                'Review:\n' + message + '\n\n' +
+                '---\nSent from All Starz Fast Foods website'
+            );
             
-            console.log('EmailJS validation passed, attempting to send...');
+            const mailtoLink = `mailto:info@allstarzfastfoods.com?subject=${subject}&body=${body}`;
             
-            // Show loading state
-            submitBtn.textContent = 'Sending Review...';
-            submitBtn.disabled = true;
+            // Open mailto link
+            window.location.href = mailtoLink;
             
-            // Send email using EmailJS
-            if (typeof emailjs !== 'undefined') {
-                emailjs.sendForm(
-                    EMAILJS_CONFIG.serviceId,
-                    EMAILJS_CONFIG.templateId,
-                    this
-                ).then(function(response) {
-                    console.log('Review sent successfully!', response.status, response.text);
-                    
-                    // Show success message
-                    const successMessage = document.createElement('div');
-                    successMessage.className = 'notification success';
-                    successMessage.textContent = '✓ Thank you for your review! We appreciate your feedback.';
-                    document.body.appendChild(successMessage);
-                    
-                    // Remove success message after 5 seconds
-                    setTimeout(() => {
-                        successMessage.remove();
-                    }, 5000);
-                    
-                    contactForm.reset();
-                }, function(error) {
-                    console.log('Failed to send review:', error);
-                    
-                    // Show error message
-                    const errorMessage = document.createElement('div');
-                    errorMessage.className = 'notification error';
-                    errorMessage.textContent = '✗ Sorry, there was an error sending your review. Please try again or contact us directly.';
-                    document.body.appendChild(errorMessage);
-                    
-                    // Remove error message after 5 seconds
-                    setTimeout(() => {
-                        errorMessage.remove();
-                    }, 5000);
-                }).finally(function() {
-                    // Reset button state
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                });
-            } else {
-                alert('Email service is not available. Please try again later.');
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'notification success';
+            successMessage.textContent = '✓ Opening your email client... Thank you for your feedback!';
+            successMessage.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                z-index: 1000;
+                font-family: 'Poppins', sans-serif;
+            `;
+            document.body.appendChild(successMessage);
+            
+            // Remove success message after 5 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 5000);
+            
+            // Reset form
+            this.reset();
         });
     }
 
