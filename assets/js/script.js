@@ -156,7 +156,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalText = submitBtn.textContent;
             
             // Validate configuration
-            if (EMAILJS_CONFIG.publicKey === 'YOUR_EMAILJS_PUBLIC_KEY' || 
+            if (!EMAILJS_CONFIG.publicKey || 
+                !EMAILJS_CONFIG.serviceId || 
+                !EMAILJS_CONFIG.templateId ||
+                EMAILJS_CONFIG.publicKey === 'YOUR_EMAILJS_PUBLIC_KEY' || 
                 EMAILJS_CONFIG.serviceId === 'YOUR_EMAILJS_SERVICE_ID' || 
                 EMAILJS_CONFIG.templateId === 'YOUR_EMAILJS_TEMPLATE_ID') {
                 alert('EmailJS is not configured yet. Please contact the restaurant directly.');
