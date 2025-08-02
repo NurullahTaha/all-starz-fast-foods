@@ -146,8 +146,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize EmailJS
     if (typeof emailjs !== 'undefined') {
         emailjs.init(EMAILJS_CONFIG.publicKey);
+        console.log('EmailJS initialized with key:', EMAILJS_CONFIG.publicKey);
+    } else {
+        console.error('EmailJS library not loaded');
     }
 
+    console.log('Contact form found:', contactForm);
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
